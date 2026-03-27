@@ -1,0 +1,14 @@
+.find-ride__field {
+  margin: var(--spacing-md) 0;
+}
+
+.find-ride__label {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: black;
+}
+
+.find-ride__action {
+  margin-top: var(--spacing-lg);
+}

@@ -1,0 +1,72 @@
+.home {
+  padding: var(--spacing-lg);
+  background: var(--color-general-500);
+  min-height: 100%;
+}
+
+.home__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+}
+
+.home__greeting {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: black;
+}
+
+.home__sign-out {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home__sign-out-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.home__section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  color: black;
+}
+
+.home__map-container {
+  height: 300px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-general-300);
+}
+
+.home__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+}
+
+.home__empty-img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.home__empty-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-general-200);
+  margin-top: var(--spacing-sm);
+}
+
+/* spinner class is defined globally in styles.css */

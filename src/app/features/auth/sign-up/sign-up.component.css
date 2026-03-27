@@ -1,0 +1,58 @@
+@import '../auth-shared.css';
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.modal {
+  background: white;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  border-radius: var(--spacing-md);
+  min-height: 300px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal--success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  margin-bottom: var(--spacing-sm);
+}
+
+.modal__title--center {
+  text-align: center;
+}
+
+.modal__desc {
+  font-size: var(--font-size-base);
+  color: var(--color-general-200);
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal__desc--center {
+  text-align: center;
+}
+
+.modal__check-img {
+  width: 110px;
+  height: 110px;
+  margin: var(--spacing-lg) auto;
+}
+
+.modal__action {
+  margin-top: var(--spacing-lg);
+  width: 100%;
+}

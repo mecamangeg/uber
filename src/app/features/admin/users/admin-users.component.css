@@ -1,0 +1,77 @@
+.admin-page__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 24px;
+}
+
+.table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #eee;
+}
+
+.admin-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.admin-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.cell-muted {
+  color: #999;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.cell-name {
+  font-weight: 500;
+}
+
+.admin-loading {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #eee;
+  border-top-color: #f5a623;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.admin-empty {
+  text-align: center;
+  padding: 48px;
+  color: #999;
+  background: #fff;
+  border-radius: 12px;
+}

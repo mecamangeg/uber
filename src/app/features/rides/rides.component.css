@@ -1,0 +1,34 @@
+.rides {
+  padding: var(--spacing-lg);
+  background: white;
+  min-height: 100%;
+}
+
+.rides__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  color: black;
+}
+
+.rides__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+}
+
+.rides__empty-img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.rides__empty-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-general-200);
+  margin-top: var(--spacing-sm);
+}
+
+/* spinner class is defined globally in styles.css */

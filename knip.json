@@ -1,0 +1,7 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["src/app/app.ts", "src/app/app.config.ts", "src/app/app.routes.ts"],
+  "project": ["src/**/*.ts"],
+  "ignore": ["src/environments/environment.example.ts"],
+  "ignoreDependencies": ["@capacitor/*", "prettier", "@playwright/test"]
+}

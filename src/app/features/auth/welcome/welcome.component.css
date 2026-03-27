@@ -1,0 +1,86 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  background: white;
+}
+
+.welcome__skip {
+  align-self: flex-end;
+  padding: var(--spacing-lg);
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: black;
+  cursor: pointer;
+}
+
+.welcome__swiper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 480px;
+}
+
+.welcome__slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.welcome__image {
+  width: 100%;
+  max-width: 360px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.welcome__title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  margin-top: var(--spacing-xl);
+  padding: 0 var(--spacing-xl);
+  color: black;
+}
+
+.welcome__desc {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-general-200);
+  margin-top: var(--spacing-md);
+  padding: 0 var(--spacing-xl);
+}
+
+.welcome__dots {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xl);
+}
+
+.welcome__dot {
+  width: 32px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-general-600);
+}
+
+.welcome__dot--active {
+  background-color: var(--color-primary);
+}
+
+.welcome__action {
+  width: 91.666%;
+  max-width: 480px;
+  padding: 0 var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}

@@ -1,0 +1,64 @@
+.google-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 50;
+  border-radius: var(--radius-lg);
+  background-color: white;
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+}
+
+.google-input__icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
+}
+
+.google-input__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.google-input__autocomplete-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.google-input__field {
+  flex: 1;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  color: var(--color-secondary);
+  border: none;
+  outline: none;
+  padding: 16px 20px 16px 12px;
+  border-radius: 200px;
+}
+
+/* Pac-container overrides to position the autocomplete dropdown properly */
+::ng-deep .pac-container {
+  font-family: var(--font-family);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: none;
+  margin-top: 4px;
+}
+
+::ng-deep .pac-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+}
+
+::ng-deep .pac-item:hover {
+  background-color: var(--color-general-500);
+}

@@ -1,0 +1,112 @@
+/* Shared auth page styles — imported by sign-in and sign-up */
+.auth-page {
+  min-height: 100vh;
+  background: white;
+  overflow-y: auto;
+}
+
+.auth-page__hero {
+  position: relative;
+  width: 100%;
+  height: 250px;
+}
+
+.auth-page__hero-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.auth-page__hero-title {
+  position: absolute;
+  bottom: var(--spacing-lg);
+  left: var(--spacing-lg);
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: black;
+}
+
+.auth-page__form {
+  padding: var(--spacing-lg);
+}
+
+.auth-page__submit {
+  margin-top: var(--spacing-lg);
+}
+
+.auth-page__error {
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.auth-page__link {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  font-size: var(--font-size-lg);
+  color: var(--color-general-200);
+}
+
+.auth-page__link--primary {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Reactive form fields */
+.form-field {
+  margin: var(--spacing-sm) 0;
+  width: 100%;
+}
+
+.form-field__label {
+  display: block;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-secondary);
+}
+
+.form-field__container {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-general-100);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-general-100);
+  transition: border-color 0.2s;
+}
+
+.form-field__container:focus-within {
+  border-color: var(--color-primary);
+}
+
+.form-field__container--error {
+  border-color: var(--color-danger);
+}
+
+.form-field__icon {
+  width: 24px;
+  height: 24px;
+  margin-left: var(--spacing-md);
+}
+
+.form-field__input {
+  flex: 1;
+  padding: var(--spacing-md);
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  background: transparent;
+  outline: none;
+  border-radius: var(--radius-full);
+  min-width: 0;
+}
+
+.form-field__error {
+  display: block;
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+  padding-left: var(--spacing-md);
+}
