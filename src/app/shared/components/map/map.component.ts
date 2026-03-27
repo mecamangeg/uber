@@ -67,7 +67,7 @@ export class MapComponent implements OnInit {
 
   private calculateRoute(origin: google.maps.LatLngLiteral, destination: google.maps.LatLngLiteral) {
     if (typeof google === 'undefined' || !google.maps) return;
-    
+
     const directionsService = new google.maps.DirectionsService();
     directionsService.route({
       origin,
@@ -75,6 +75,9 @@ export class MapComponent implements OnInit {
       travelMode: google.maps.TravelMode.DRIVING,
     }).then(result => {
       this.directionsResult = result;
+    }).catch(() => {
+      // Directions API may not be enabled — show origin/destination markers instead
+      console.warn('Directions API unavailable — showing markers only');
     });
   }
 }

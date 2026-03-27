@@ -70,8 +70,8 @@ export class DriverService {
       if (resp.data) {
         this.drivers.set(resp.data.map(d => ({
           ...d,
-          latitude: d.latitude ?? 0,
-          longitude: d.longitude ?? 0,
+          latitude: parseFloat(String(d.latitude)) || 0,
+          longitude: parseFloat(String(d.longitude)) || 0,
           id: d.id,
           title: `${d.first_name} ${d.last_name}`,
         })));
