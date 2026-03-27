@@ -12,9 +12,16 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="manifest" href="manifest.webmanifest" />
   </head>
   <body>
+    <script>
+      // Unregister stale service workers from previous builds
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          registrations.forEach(function(registration) { registration.unregister(); });
+        });
+      }
+    </script>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <app-root></app-root>
     <noscript>Please enable JavaScript to continue using this application.</noscript>
