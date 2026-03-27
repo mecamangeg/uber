@@ -43,5 +43,4 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(self), payment=(self)"
-    # CSP disabled for dev/test — re-enable with proper Clerk/Cloudflare domains for production
-    # Content-Security-Policy = "..."
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.dev https://api.clerk.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.clerk.dev https://img.clerk.com https://maps.googleapis.com https://maps.gstatic.com; connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.dev https://api.clerk.com https://*.googleapis.com https://fonts.gstatic.com https://maps.geoapify.com https://*.run.app; frame-src https://*.clerk.accounts.dev https://challenges.cloudflare.com; worker-src 'self' blob:;"
