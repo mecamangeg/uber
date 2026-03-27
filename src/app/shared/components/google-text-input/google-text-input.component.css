@@ -31,6 +31,22 @@
   min-width: 0;
 }
 
+/* Hide our custom icon when Google's PlaceAutocompleteElement is present (it has its own) */
+.google-input--has-place-element .google-input__icon-container {
+  display: none;
+}
+
+/* Style Google's PlaceAutocompleteElement to match app theme */
+::ng-deep gmp-place-autocomplete {
+  --gmpx-color-surface: white;
+  --gmpx-color-on-surface: #333;
+  --gmpx-font-family-base: 'Plus Jakarta Sans', sans-serif;
+  --gmpx-font-size-base: 16px;
+  background: transparent;
+  border: none;
+  width: 100%;
+}
+
 .google-input__field {
   flex: 1;
   background-color: transparent;

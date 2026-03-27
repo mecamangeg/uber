@@ -1,12 +1,12 @@
 /// <reference types="google.maps" />
-import { Component, ChangeDetectionStrategy, input, output, ElementRef, ViewChild, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, signal, ElementRef, ViewChild, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import type { LocationCoordinates } from '../../models/location.model';
 
 @Component({
   selector: 'app-google-text-input',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <div class="google-input">
+    <div class="google-input" [class.google-input--has-place-element]="hasPlaceElement()">
       <div class="google-input__icon-container">
         <img [src]="icon() || 'assets/icons/search.png'" class="google-input__icon" alt="Search" />
       </div>
@@ -23,6 +23,7 @@ export class GoogleTextInputComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('autocompleteContainer') container!: ElementRef<HTMLDivElement>;
 
+  readonly hasPlaceElement = signal(false);
   private placeElement: any = null;
 
   ngAfterViewInit() {
@@ -56,6 +57,7 @@ export class GoogleTextInputComponent implements AfterViewInit, OnDestroy {
         });
 
         this.container.nativeElement.appendChild(this.placeElement);
+        this.hasPlaceElement.set(true);
         return;
       }
     } catch { /* fall through to legacy */ }
