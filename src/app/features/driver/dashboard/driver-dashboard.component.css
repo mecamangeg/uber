@@ -1,0 +1,155 @@
+.driver-dash {
+  padding: 24px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.driver-dash__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.driver-dash__greeting {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.driver-dash__stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.driver-dash__info-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.driver-dash__stat-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.driver-dash__stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.driver-dash__stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* Ride request card */
+.driver-dash__ride-alert {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-left: 4px solid #f5a623;
+}
+
+.driver-dash__ride-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.driver-dash__ride-detail {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.driver-dash__ride-label {
+  font-weight: 600;
+  color: #718096;
+  min-width: 80px;
+}
+
+.driver-dash__ride-fare {
+  font-weight: 800;
+  color: #48bb78;
+}
+
+.driver-dash__ride-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.driver-dash__btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.driver-dash__btn:hover { opacity: 0.85; }
+.driver-dash__btn--accept { background: #48bb78; color: #fff; }
+.driver-dash__btn--decline { background: #e2e8f0; color: #4a5568; }
+
+/* Waiting state */
+.driver-dash__waiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.driver-dash__pulse {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #48bb78;
+  animation: pulse 1.5s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.5; }
+}
+
+.driver-dash__waiting-text {
+  font-size: 16px;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* Offline message */
+.driver-dash__offline-msg {
+  text-align: center;
+  padding: 48px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  color: #718096;
+  font-size: 16px;
+}

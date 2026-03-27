@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '@env';
 import type { Driver } from '@models/driver.model';
-import type { Ride } from '@models/ride.model';
+import type { Ride, RideStatus } from '@models/ride.model';
 import type { User, AdminStats } from '@models/user.model';
 
 const MOCK_DRIVERS: Driver[] = [
@@ -18,9 +18,9 @@ const MOCK_USERS: User[] = [
 ];
 
 const MOCK_RIDES: Ride[] = [
-  { ride_id: 1, origin_address: 'Makati Ave, Makati', destination_address: 'BGC, Taguig', origin_latitude: 14.5547, origin_longitude: 121.0244, destination_latitude: 14.5505, destination_longitude: 121.0455, ride_time: 15, fare_price: 180, payment_status: 'paid', driver_id: 1, user_id: 'dev_user_001', created_at: '2026-03-25', driver: { first_name: 'Carlos', last_name: 'Santos', car_seats: 4 } },
-  { ride_id: 2, origin_address: 'Ortigas Center, Pasig', destination_address: 'Eastwood City, QC', origin_latitude: 14.5873, origin_longitude: 121.0615, destination_latitude: 14.6091, destination_longitude: 121.0809, ride_time: 20, fare_price: 220, payment_status: 'paid', driver_id: 2, user_id: 'dev_user_001', created_at: '2026-03-24', driver: { first_name: 'Maria', last_name: 'Cruz', car_seats: 4 } },
-  { ride_id: 3, origin_address: 'SM North EDSA, QC', destination_address: 'Trinoma, QC', origin_latitude: 14.6565, origin_longitude: 121.0310, destination_latitude: 14.6520, destination_longitude: 121.0390, ride_time: 8, fare_price: 95, payment_status: 'pending', driver_id: 3, user_id: 'user_002', created_at: '2026-03-26', driver: { first_name: 'Juan', last_name: 'Reyes', car_seats: 6 } },
+  { ride_id: 1, origin_address: 'Makati Ave, Makati', destination_address: 'BGC, Taguig', origin_latitude: 14.5547, origin_longitude: 121.0244, destination_latitude: 14.5505, destination_longitude: 121.0455, ride_time: 15, fare_price: 180, payment_status: 'paid', status: 'completed', driver_id: 1, user_id: 'dev_user_001', created_at: '2026-03-25', driver: { first_name: 'Carlos', last_name: 'Santos', car_seats: 4 } },
+  { ride_id: 2, origin_address: 'Ortigas Center, Pasig', destination_address: 'Eastwood City, QC', origin_latitude: 14.5873, origin_longitude: 121.0615, destination_latitude: 14.6091, destination_longitude: 121.0809, ride_time: 20, fare_price: 220, payment_status: 'paid', status: 'in_progress', driver_id: 2, user_id: 'dev_user_001', created_at: '2026-03-24', driver: { first_name: 'Maria', last_name: 'Cruz', car_seats: 4 } },
+  { ride_id: 3, origin_address: 'SM North EDSA, QC', destination_address: 'Trinoma, QC', origin_latitude: 14.6565, origin_longitude: 121.0310, destination_latitude: 14.6520, destination_longitude: 121.0390, ride_time: 8, fare_price: 95, payment_status: 'pending', status: 'pending', driver_id: 3, user_id: 'user_002', created_at: '2026-03-26', driver: { first_name: 'Juan', last_name: 'Reyes', car_seats: 6 } },
 ];
 
 const MOCK_STATS: AdminStats = { totalDrivers: 3, totalRides: 3, totalUsers: 2, totalRevenue: 400 };
@@ -102,6 +102,42 @@ export class AdminService {
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  async updateRideStatus(rideId: number, status: RideStatus | 'refunded', actorId: string): Promise<Ride> {
+    if (environment.devBypassAuth) {
+      const isCancellation = status === 'cancelled';
+      this.rides.update(rides => rides.map(r =>
+        r.ride_id === rideId ? {
+          ...r, status: status as RideStatus,
+          ...(isCancellation ? { cancelled_by: 'admin', cancelled_at: new Date().toISOString() } : {}),
+          ...(status === 'refunded' ? { payment_status: 'refunded' } : {}),
+        } : r
+      ));
+      return this.rides().find(r => r.ride_id === rideId)!;
+    }
+    const resp = await firstValueFrom(
+      this.http.patch<{ data: Ride }>(`${environment.apiUrl}/api/rides/${rideId}/status`, {
+        status, actor_type: 'admin', actor_id: actorId,
+      })
+    );
+    this.rides.update(rides => rides.map(r => r.ride_id === rideId ? { ...r, ...resp.data } : r));
+    return resp.data;
+  }
+
+  async markRidePaid(rideId: number): Promise<void> {
+    if (environment.devBypassAuth) {
+      this.rides.update(rides => rides.map(r =>
+        r.ride_id === rideId ? { ...r, payment_status: 'paid' } : r
+      ));
+      return;
+    }
+    await firstValueFrom(
+      this.http.patch(`${environment.apiUrl}/api/admin/rides/${rideId}/payment`, { payment_status: 'paid' })
+    );
+    this.rides.update(rides => rides.map(r =>
+      r.ride_id === rideId ? { ...r, payment_status: 'paid' } : r
+    ));
   }
 
   async loadUsers(): Promise<void> {

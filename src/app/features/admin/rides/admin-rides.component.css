@@ -101,3 +101,36 @@
   background: #fff;
   border-radius: 12px;
 }
+
+/* Ride status badges */
+.badge--completed { background: #c6f6d5; color: #22543d; }
+.badge--accepted { background: #bee3f8; color: #2a4365; }
+.badge--en_route_pickup,
+.badge--arrived_pickup,
+.badge--in_progress { background: #c3dafe; color: #3c366b; }
+.badge--cancelled,
+.badge--driver_cancelled { background: #fed7d7; color: #9b2c2c; }
+.badge--refunded { background: #e9d8fd; color: #553c9a; }
+
+/* Action buttons */
+.cell-actions {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.action-btn {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.action-btn:hover { opacity: 0.8; }
+
+.action-btn--danger { background: #fed7d7; color: #9b2c2c; }
+.action-btn--success { background: #c6f6d5; color: #22543d; }
+.action-btn--warn { background: #fefcbf; color: #744210; }

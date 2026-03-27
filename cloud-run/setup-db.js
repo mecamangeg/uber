@@ -34,6 +34,13 @@ async function setup() {
       ride_time INTEGER NOT NULL,
       fare_price DECIMAL(10,2) NOT NULL,
       payment_status VARCHAR(20) DEFAULT 'pending',
+      status VARCHAR(30) DEFAULT 'pending',
+      cancelled_by VARCHAR(20),
+      cancelled_at TIMESTAMP,
+      cancel_reason TEXT,
+      accepted_at TIMESTAMP,
+      pickup_at TIMESTAMP,
+      completed_at TIMESTAMP,
       driver_id INTEGER REFERENCES drivers(id),
       user_id VARCHAR(100) NOT NULL,
       created_at TIMESTAMP DEFAULT NOW()
@@ -51,6 +58,75 @@ async function setup() {
     )
   `;
   console.log('  users table created');
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS ride_events (
+      id SERIAL PRIMARY KEY,
+      ride_id INTEGER REFERENCES rides(ride_id),
+      status VARCHAR(30) NOT NULL,
+      actor_type VARCHAR(20) NOT NULL,
+      actor_id VARCHAR(200),
+      note TEXT,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  console.log('  ride_events table created');
+
+  // Migrate: add new columns to existing rides table (safe to re-run)
+  const ridesColumns = await sql`
+    SELECT column_name FROM information_schema.columns
+    WHERE table_name = 'rides' AND column_name = 'status'
+  `;
+  if (ridesColumns.length === 0) {
+    console.log('  Migrating rides table...');
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS status VARCHAR(30) DEFAULT 'pending'`;
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS cancelled_by VARCHAR(20)`;
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMP`;
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS cancel_reason TEXT`;
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS accepted_at TIMESTAMP`;
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS pickup_at TIMESTAMP`;
+    await sql`ALTER TABLE rides ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP`;
+    console.log('  rides table migrated');
+  }
+
+  // Driver earnings table
+  await sql`
+    CREATE TABLE IF NOT EXISTS driver_earnings (
+      id SERIAL PRIMARY KEY,
+      driver_id INTEGER REFERENCES drivers(id),
+      ride_id INTEGER REFERENCES rides(ride_id),
+      amount DECIMAL(10,2) NOT NULL,
+      commission DECIMAL(10,2) DEFAULT 0,
+      net_amount DECIMAL(10,2) NOT NULL,
+      status VARCHAR(20) DEFAULT 'pending',
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  console.log('  driver_earnings table created');
+
+  // Migrate: add new columns to existing drivers table (safe to re-run)
+  const driverColumns = await sql`
+    SELECT column_name FROM information_schema.columns
+    WHERE table_name = 'drivers' AND column_name = 'clerk_id'
+  `;
+  if (driverColumns.length === 0) {
+    console.log('  Migrating drivers table...');
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS clerk_id VARCHAR(200) UNIQUE`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS email VARCHAR(200)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS phone VARCHAR(50)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS is_online BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS car_make VARCHAR(100)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS car_model VARCHAR(100)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS car_year INTEGER`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS car_color VARCHAR(50)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS license_plate VARCHAR(20)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS license_number VARCHAR(100)`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS total_earnings DECIMAL(12,2) DEFAULT 0`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS total_rides_completed INTEGER DEFAULT 0`;
+    await sql`ALTER TABLE drivers ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT NOW()`;
+    console.log('  drivers table migrated');
+  }
 
   // Seed drivers
   const existingDrivers = await sql`SELECT COUNT(*) as count FROM drivers`;

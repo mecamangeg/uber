@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '@env';
-import type { Ride } from '../../shared/models/ride.model';
+import type { Ride, RideStatus } from '../../shared/models/ride.model';
 
 const MOCK_RIDES: Ride[] = [
   {
@@ -16,6 +16,7 @@ const MOCK_RIDES: Ride[] = [
     ride_time: 15,
     fare_price: 180,
     payment_status: 'paid',
+    status: 'completed',
     driver_id: 1,
     user_id: 'dev_user_001',
     created_at: '2026-03-25',
@@ -31,7 +32,8 @@ const MOCK_RIDES: Ride[] = [
     destination_longitude: 121.0809,
     ride_time: 20,
     fare_price: 220,
-    payment_status: 'paid',
+    payment_status: 'pending',
+    status: 'pending',
     driver_id: 2,
     user_id: 'dev_user_001',
     created_at: '2026-03-24',
@@ -72,6 +74,23 @@ export class RideService {
     const resp = await firstValueFrom(
       this.http.post<{ data: Ride }>(`${environment.apiUrl}/api/rides`, rideData)
     );
+    return resp.data;
+  }
+
+  async cancelRide(rideId: number, actorType: string, actorId: string, reason?: string): Promise<Ride> {
+    const status: RideStatus = actorType === 'driver' ? 'driver_cancelled' : 'cancelled';
+    if (environment.devBypassAuth) {
+      this.recentRides.update(rides => rides.map(r =>
+        r.ride_id === rideId ? { ...r, status, cancelled_by: actorType, cancelled_at: new Date().toISOString(), cancel_reason: reason } : r
+      ));
+      return this.recentRides().find(r => r.ride_id === rideId)!;
+    }
+    const resp = await firstValueFrom(
+      this.http.patch<{ data: Ride }>(`${environment.apiUrl}/api/rides/${rideId}/status`, {
+        status, actor_type: actorType, actor_id: actorId, reason,
+      })
+    );
+    this.recentRides.update(rides => rides.map(r => r.ride_id === rideId ? { ...r, ...resp.data } : r));
     return resp.data;
   }
 }

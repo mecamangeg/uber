@@ -21,7 +21,7 @@ import { RideService } from '@core/services/ride.service';
         </div>
       } @else {
         @for (ride of rideService.recentRides(); track ride.ride_id) {
-          <app-ride-card [ride]="ride" />
+          <app-ride-card [ride]="ride" (cancelRide)="onCancelRide($event)" />
         }
       }
     </div>
@@ -38,5 +38,11 @@ export default class RidesComponent implements OnInit {
     if (user?.id) {
       this.rideService.loadRides(user.id);
     }
+  }
+
+  async onCancelRide(rideId: number) {
+    if (!confirm('Are you sure you want to cancel this ride?')) return;
+    const user = this.auth.user();
+    await this.rideService.cancelRide(rideId, 'customer', user?.id || '');
   }
 }

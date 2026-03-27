@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { AdminService } from '@core/services/admin.service';
+import type { Ride } from '@models/ride.model';
 
 @Component({
   selector: 'app-admin-rides',
@@ -24,7 +25,9 @@ import { AdminService } from '@core/services/admin.service';
                 <th>Destination</th>
                 <th>Driver</th>
                 <th>Fare</th>
-                <th>Status</th>
+                <th>Ride Status</th>
+                <th>Payment</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -43,9 +46,25 @@ import { AdminService } from '@core/services/admin.service';
                   </td>
                   <td class="cell-fare">{{ ride.fare_price | number:'1.2-2' }}</td>
                   <td>
+                    <span class="badge" [class]="'badge--' + (ride.status || 'pending')">
+                      {{ statusLabel(ride) }}
+                    </span>
+                  </td>
+                  <td>
                     <span class="badge" [class]="'badge--' + ride.payment_status">
                       {{ ride.payment_status }}
                     </span>
+                  </td>
+                  <td class="cell-actions">
+                    @if (canCancel(ride)) {
+                      <button class="action-btn action-btn--danger" (click)="onCancel(ride)">Cancel</button>
+                    }
+                    @if (ride.payment_status === 'pending' && ride.status !== 'cancelled' && ride.status !== 'driver_cancelled') {
+                      <button class="action-btn action-btn--success" (click)="onMarkPaid(ride)">Mark Paid</button>
+                    }
+                    @if (ride.payment_status === 'paid') {
+                      <button class="action-btn action-btn--warn" (click)="onRefund(ride)">Refund</button>
+                    }
                   </td>
                 </tr>
               }
@@ -63,5 +82,33 @@ export default class AdminRidesComponent implements OnInit {
 
   ngOnInit() {
     this.admin.loadRides();
+  }
+
+  statusLabel(ride: Ride): string {
+    const labels: Record<string, string> = {
+      pending: 'Pending', accepted: 'Accepted', en_route_pickup: 'En Route',
+      arrived_pickup: 'Arrived', in_progress: 'In Progress',
+      completed: 'Completed', cancelled: 'Cancelled', driver_cancelled: 'Driver Cancelled',
+    };
+    return labels[ride.status] || ride.status || 'Pending';
+  }
+
+  canCancel(ride: Ride): boolean {
+    const s = ride.status || 'pending';
+    return s !== 'completed' && s !== 'cancelled' && s !== 'driver_cancelled';
+  }
+
+  async onCancel(ride: Ride) {
+    if (!confirm(`Cancel ride #${ride.ride_id}?`)) return;
+    await this.admin.updateRideStatus(ride.ride_id!, 'cancelled', 'admin');
+  }
+
+  async onMarkPaid(ride: Ride) {
+    await this.admin.markRidePaid(ride.ride_id!);
+  }
+
+  async onRefund(ride: Ride) {
+    if (!confirm(`Refund ride #${ride.ride_id}?`)) return;
+    await this.admin.updateRideStatus(ride.ride_id!, 'refunded', 'admin');
   }
 }

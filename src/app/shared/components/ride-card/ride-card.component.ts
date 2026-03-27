@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
 import type { Ride } from '../../models/ride.model';
 import { formatDate, formatTime } from '../../utils/format';
 import { environment } from '@env';
@@ -39,14 +39,31 @@ import { environment } from '@env';
         </div>
 
         <div class="ride-card__row">
-          <span class="ride-card__label">Payment Status</span>
-          <span class="ride-card__value ride-card__value--status" 
+          <span class="ride-card__label">Status</span>
+          <span class="ride-card__value ride-card__value--status"
+                [class.text-green]="ride().status === 'completed'"
+                [class.text-yellow]="ride().status === 'pending' || ride().status === 'accepted'"
+                [class.text-blue]="ride().status === 'in_progress' || ride().status === 'en_route_pickup' || ride().status === 'arrived_pickup'"
+                [class.text-red]="ride().status === 'cancelled' || ride().status === 'driver_cancelled'">
+            {{ statusLabel() }}
+          </span>
+        </div>
+
+        <div class="ride-card__row">
+          <span class="ride-card__label">Payment</span>
+          <span class="ride-card__value ride-card__value--status"
                 [class.text-green]="ride().payment_status === 'paid'"
                 [class.text-red]="ride().payment_status !== 'paid'">
             {{ ride().payment_status }}
           </span>
         </div>
       </div>
+
+      @if (canCancel()) {
+        <button class="ride-card__cancel-btn" (click)="cancelRide.emit(ride().ride_id!)">
+          Cancel Ride
+        </button>
+      }
     </div>
   `,
   styleUrl: './ride-card.component.css',
@@ -54,6 +71,18 @@ import { environment } from '@env';
 })
 export class RideCardComponent {
   readonly ride = input.required<Ride>();
+  readonly cancelRide = output<number>();
+
+  readonly canCancel = computed(() => this.ride().status === 'pending');
+
+  readonly statusLabel = computed(() => {
+    const labels: Record<string, string> = {
+      pending: 'Pending', accepted: 'Accepted', en_route_pickup: 'Driver En Route',
+      arrived_pickup: 'Driver Arrived', in_progress: 'In Progress',
+      completed: 'Completed', cancelled: 'Cancelled', driver_cancelled: 'Driver Cancelled',
+    };
+    return labels[this.ride().status] || this.ride().status;
+  });
 
   readonly mapUrl = computed(() => {
     const lat = this.ride().destination_latitude;

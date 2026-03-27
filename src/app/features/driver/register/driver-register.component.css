@@ -1,0 +1,188 @@
+.register {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  background: #f7fafc;
+}
+
+.register__card {
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.register__title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.register__subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 20px;
+}
+
+/* Step indicator */
+.register__steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 28px;
+}
+
+.register__step {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #cbd5e0;
+  transition: all 0.3s;
+}
+
+.register__step--active {
+  border-color: #f5a623;
+  color: #f5a623;
+}
+
+.register__step--done {
+  background: #48bb78;
+  border-color: #48bb78;
+  color: #fff;
+}
+
+.register__step-line {
+  width: 48px;
+  height: 2px;
+  background: #e2e8f0;
+  transition: background 0.3s;
+}
+
+.register__step-line--done {
+  background: #48bb78;
+}
+
+/* Form fields */
+.register__field {
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.register__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #718096;
+  margin-bottom: 6px;
+}
+
+.register__input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.register__input:focus {
+  outline: none;
+  border-color: #f5a623;
+}
+
+.register__input:disabled {
+  background: #f7fafc;
+  color: #a0aec0;
+}
+
+.register__row {
+  display: flex;
+  gap: 12px;
+}
+
+/* Buttons */
+.register__btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #f5a623;
+  color: #fff;
+  margin-top: 8px;
+  transition: opacity 0.2s;
+}
+
+.register__btn:hover:not(:disabled) { opacity: 0.85; }
+.register__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.register__btn--secondary {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.register__btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.register__btn-row .register__btn {
+  flex: 1;
+}
+
+/* Review */
+.register__review {
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.register__review-section {
+  margin-bottom: 16px;
+}
+
+.register__review-section:last-child {
+  margin-bottom: 0;
+}
+
+.register__review-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+}
+
+.register__review-section p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.register__error {
+  color: #e53e3e;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+}

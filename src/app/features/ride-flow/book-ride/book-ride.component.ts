@@ -104,6 +104,7 @@ export default class BookRideComponent {
         ride_time: d.time || 0,
         fare_price: parseFloat(d.price || '0'),
         payment_status: 'pending',
+        status: 'pending',
         driver_id: d.id,
         user_id: user.id,
       });

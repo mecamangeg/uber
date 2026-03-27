@@ -3,6 +3,7 @@ import { environment } from '@env';
 
 import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
+import { driverGuard } from './core/guards/driver.guard';
 
 const defaultRoute = environment.devBypassAuth ? 'app/home' : 'auth/welcome';
 
@@ -38,6 +39,28 @@ export const routes: Routes = [
       { path: 'find-ride', loadComponent: () => import('./features/ride-flow/find-ride/find-ride.component') },
       { path: 'confirm-ride', loadComponent: () => import('./features/ride-flow/confirm-ride/confirm-ride.component') },
       { path: 'book-ride', loadComponent: () => import('./features/ride-flow/book-ride/book-ride.component') },
+    ]
+  },
+
+  // Driver registration (auth guard only, no driver guard)
+  {
+    path: 'driver-register',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/driver/register/driver-register.component'),
+  },
+
+  // Driver routes (driver guard)
+  {
+    path: 'driver',
+    canActivate: [driverGuard],
+    loadComponent: () => import('./layout/driver-layout/driver-layout.component'),
+    children: [
+      { path: 'dashboard', loadComponent: () => import('./features/driver/dashboard/driver-dashboard.component') },
+      { path: 'rides', loadComponent: () => import('./features/driver/rides/driver-rides.component') },
+      { path: 'active-ride', loadComponent: () => import('./features/driver/active-ride/driver-active-ride.component') },
+      { path: 'earnings', loadComponent: () => import('./features/driver/earnings/driver-earnings.component') },
+      { path: 'profile', loadComponent: () => import('./features/driver/profile/driver-profile.component') },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ]
   },
 

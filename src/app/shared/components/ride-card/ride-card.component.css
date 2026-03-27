@@ -93,3 +93,22 @@
 
 .text-green { color: var(--color-success); }
 .text-red { color: var(--color-danger); }
+.text-yellow { color: #b7791f; }
+.text-blue { color: #2b6cb0; }
+
+.ride-card__cancel-btn {
+  margin-top: var(--spacing-md);
+  padding: 10px 16px;
+  background: var(--color-danger, #e53e3e);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md, 8px);
+  font-size: var(--font-size-base, 14px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ride-card__cancel-btn:hover {
+  background: #c53030;
+}
