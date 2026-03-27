@@ -40,11 +40,19 @@
 ::ng-deep gmp-place-autocomplete {
   --gmpx-color-surface: white;
   --gmpx-color-on-surface: #333;
+  --gmpx-color-on-surface-variant: #666;
+  --gmpx-color-primary: #f5a623;
   --gmpx-font-family-base: 'Plus Jakarta Sans', sans-serif;
   --gmpx-font-size-base: 16px;
   background: transparent;
   border: none;
   width: 100%;
+  color-scheme: light;
+}
+
+::ng-deep gmp-place-autocomplete input {
+  color: #333 !important;
+  caret-color: #333 !important;
 }
 
 .google-input__field {
