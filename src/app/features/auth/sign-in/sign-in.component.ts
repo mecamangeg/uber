@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CustomButtonComponent } from '@shared/components/custom-button/custom-button.component';
@@ -63,10 +63,16 @@ import { AuthService } from '@core/services/auth.service';
   styleUrl: './sign-in.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class SignInComponent {
+export default class SignInComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
+
+  ngOnInit() {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/app/home']);
+    }
+  }
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

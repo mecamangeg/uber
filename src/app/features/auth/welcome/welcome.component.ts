@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomButtonComponent } from '@shared/components/custom-button/custom-button.component';
+import { AuthService } from '@core/services/auth.service';
 
 const onboarding = [
   {
@@ -55,13 +56,20 @@ const onboarding = [
   styleUrl: './welcome.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class WelcomeComponent {
+export default class WelcomeComponent implements OnInit {
+  private readonly auth = inject(AuthService);
   readonly slides = onboarding;
   readonly activeIndex = signal(0);
   readonly currentSlide = computed(() => this.slides[this.activeIndex()]);
   readonly isLastSlide = computed(() => this.activeIndex() === this.slides.length - 1);
 
   constructor(private router: Router) {}
+
+  ngOnInit() {
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/app/home']);
+    }
+  }
 
   skip() {
     this.router.navigate(['/auth/sign-up']);
